@@ -1,0 +1,115 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <span class="navbar-brand mb-0 h1">@ToDo</span>
+  </div>
+</nav>
+
+<div class="container mb-3 mt-3">
+  <div class="row">
+    <div class="col-8 offset-4 d-flex justify-content-sm-end">
+      <input type="text" required class="form-control w-50 mx-3" [(ngModel)]="taskName" id="action"/>
+      <div>
+        <button class="btn btn-primary" (click)="addTask()">Add Task</button>
+      </div>
+    </div>
+  </div>
+  <div class="container mb-3 mt-3">
+    <div class="row">
+      <div class="col-8 offset-4 d-flex justify-content-sm-end">
+        <div class="form-check form-switch">
+          <label class="form-check-label show-all" for="flexSwitchCheckChecked">Show all</label>
+          <input class="form-check-input" type="checkbox" role="switch" (change)="showAllData=!showAllData" [checked]="showAllData" id="flexSwitchCheckChecked">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-3 mt-3">
+    <div *ngIf="isErrorTask" class="alert alert-danger" role="alert">
+      Task name is required!
+    </div>
+    <div *ngIf="listTask.length===0" class="col-12 no-task">
+      <img src="./assets/Task-PNG-Images.png"/>
+    </div>
+  </div>
+
+  <div *ngIf="listTask.length>0" class="container mt-3">
+    <div class="row form-check">
+      <div class="col-12">
+        <section class="pb-5 header text-center">
+          <div class="row">
+            <!-- Responsive table -->
+            <div class="table-responsive">
+              <table class="table m-0">
+                <thead>
+                <tr>
+                  <th style="width: 5%" scope="col">#</th>
+                  <th style="width: 5%" scope="col">Done</th>
+                  <th>Task</th>
+                  <th style="width: 15%" scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let task of listTask;index as idx">
+                  <tr *ngIf="task.visible || showAllData">
+                    <th>{{idx + 1}}</th>
+                    <th>
+                      <input [disabled]="task.disable" class="form-check-input" [checked]="task.complete"
+                             (change)="setDone(task)"
+                             type="checkbox" [attr.id]="'task_' + task.task_id"/>
+                    </th>
+                    <td style="text-align: left;">
+                      <label *ngIf="!task.editable"  class="form-check-label" [class]="{'through-tex': task.complete,'task-disable':task.disable}"
+                             [attr.for]="'task_' + task.task_id">
+                        {{task.name}} : <span style="font-weight: normal">{{task.date|date}}</span>
+                      </label>
+                      <ng-container *ngIf="task.editable">
+                        <div class="d-flex">
+                          <input   type="text" [(ngModel)]="task.name"  class="form-control w-70" />
+                          <button type="button" (click)="updateTaskName(task)" class="btn btn-success">edit</button>
+                        </div>
+                      </ng-container>
+
+                    </td>
+                    <td>
+                      <ul class="list-inline m-0">
+                        <li class="list-inline-item">
+                          <button class="btn btn-sm rounded-0"
+                                [class.btn-info]="task.visible" [class.btn-warning]="!task.visible"   type="button" data-toggle="tooltip" (click)="setVisible(task)" data-placement="top"
+                                  title="dontShowTable">
+                            <i class="fa" [class.fa-eye]="task.visible" [class.fa-eye-slash]="!task.visible" aria-hidden="true"></i>
+                          </button>
+                        </li>
+
+                        <li class="list-inline-item">
+                          <button class="btn btn-primary btn-sm rounded-0"
+                                  type="button" data-toggle="tooltip" (click)="setDisable(task)" data-placement="top"
+                                  title="hide">
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                          </button>
+                        </li>
+
+                        <li class="list-inline-item">
+                          <button class="btn btn-success btn-sm rounded-0" type="button"
+                               [disabled]="task.disable" (click)="task.editable=!task.editable" data-toggle="tooltip" data-placement="top" title="Edit">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button type="button" (click)="(task.id != null)?remove(task.id):''"
+                                  class="btn btn-danger btn-sm rounded-0" aria-label="Delete"><i
+                            class="fa fa-trash"></i></button>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

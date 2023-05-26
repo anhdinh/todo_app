@@ -1,0 +1,43 @@
+.btn-close{
+  display: inline-block;
+  margin-left: 1rem;
+  padding: 0;
+}
+
+.list-group-item:hover .btn-close{
+  display: inline-block;
+}
+
+.through-tex{
+  text-decoration: line-through red;
+}
+
+.no-task img{
+  width: 40%;
+  display: block;
+  margin: 0 auto;
+}
+
+.list-group-item{
+  padding: 1rem 1rem;
+}
+
+.form-check-label{
+  text-transform:capitalize;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 2rem;
+}
+
+.form-check-input{
+  margin-left: 0;
+}
+
+.show-all{
+  font-size: 1rem;
+  font-weight: normal;
+  margin-left: 1rem;
+}
+.task-disable{
+  opacity: 0.3;
+}
